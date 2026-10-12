@@ -1,39 +1,52 @@
 # True Home Search
 
-A Streamlit lifestyle search project using all 2,500 homes from `synthetic_real_estate_data.csv`. Managed with uv; no API keys required.
+A Streamlit application for exploring 2,500 synthetic homes using property requirements and everyday lifestyle preferences. Search by typing, browser voice dictation, or clickable suggestions. No API keys are required.
 
-## Run
+## Quick start
 
-Install uv if needed using its official installer, then:
+Prerequisites: Python 3.11 or newer and uv. Node.js is needed only for the JavaScript tests.
+
+From the project directory:
 
 ```sh
-cd real-estate-listings-life-style
 uv sync
 uv run streamlit run app.py
 ```
 
-Open the local URL printed by Streamlit (normally http://localhost:8501).
+Open the local URL printed by Streamlit, normally `http://localhost:8501`. If that port is busy:
 
-## Features
+```sh
+uv run streamlit run app.py --server.port 8502
+```
 
-- Landing page focuses on search and suggestions; results appear after a search. Result count and sorting share a row below suggestions, with data disclosures in the footer.
+Try `3 bedrooms under $550k near tennis and coffee within 10 minutes` and select **Find my home**.
 
-- Text search recognizes lifestyle terms, budgets (`under $450k`), bedrooms, bathrooms and drive-time preferences (`within 10 minutes`). Sidebar filters combine with text search.
-- Continuous voice dictation in the search box until the microphone is tapped again, with transcript preservation across browser session restarts, editable transcripts, microphone status, and clickable suggestion pills. Voice requires a supported browser (such as Chrome), microphone permission, and localhost or HTTPS. The browser may use its speech provider to process audio; the app does not store recordings. Typed search remains available.
-- Sixteen lifestyle choices including tennis, pickleball, trails, gyms, coffee, Whole Foods, dog parks, culture and golf.
-- Strict proximity matching or soft ranking, property filters, sorting, paginated home cards, details, an illustrative map, and comparison of up to four homes.
-- Downloadable showing request drafts. No booking or messages are sent.
-- Listing cards and details include randomly assigned sample home photos, kept consistent by listing ID. Seven bundled Unsplash photos are reused across the demo; they do not depict the listed properties.
+## Current features
+
+- Search-focused landing page with a single-line heading and five suggestion pills; results appear after a nonempty search is submitted.
+- Browser voice dictation with a Stop icon while listening, editable transcripts, and automatic recognition-session restarts after pauses or normal service disconnections.
+- Rule-based parsing of lifestyle terms, maximum budgets, minimum bedrooms and bathrooms, and preferred driving minutes.
+- Sixteen lifestyle choices, sidebar property filters, strict proximity matching or soft ranking, and four sorting options.
+- Result count and sorting share a row directly below suggestions. Cards initially show up to 12 homes; **Show 12 more homes** expands the list.
+- Sample photos, home details, walking and driving times, an illustrative map of up to 100 matches, and comparison of up to four homes.
+- Downloadable showing-request text drafts. The application does not send requests or book appointments.
+- Clearing the search field stops dictation, hides results, and resets sidebar filters. **Reset filters** also returns to the landing view. Comparison selections remain until explicitly removed or cleared.
 
 ## Data boundaries
 
-The reference document informed the search, cards, map, comparison and detail sections. The CSV provides historical synthetic sale prices, neighborhood codes, property specifications and condition codes, not live listings. Bathrooms displayed are above-ground full baths plus half baths. Basement bathrooms are excluded.
+This is a prototype using synthetic CSV records, seven reused sample photos, generated drive times, and illustrative map coordinates. Walking times are calculated as five times driving times. These are not real route estimates or verified listings. Filters and lifestyle scores use driving times; displayed bathrooms exclude basement bathrooms. Detailed disclosures appear in the page footer.
 
-Walking and driving times appear side by side on cards, details and comparisons. Walking times are illustrative values modeled as five times driving times; filters and lifestyle scores continue to use driving times. Nearby drive times and coordinates are deterministic examples generated from listing IDs. They are not Google Places results, travel estimates or real locations. Lifestyle score averages `max(0, 1 - demo_minutes / (2 * preferred_minutes))` across selections, scaled to 100. Strict mode also requires every drive time to meet the threshold. No lifestyles means no lifestyle score.
+## Documentation
 
-Real addresses, photos, schools, quietness, HVAC age, HOA, truth scores, certification and disclosures are unavailable. They are not inferred. Customer/agent authentication, location detection, real Places integration and actual showing scheduling are future integrations, not implemented demo features. The existing LangChain `.env` is never accessed.
-
-Text parsing is rule-based; review the sidebar after applying a query. Recognized text fields replace their corresponding filters; unmentioned property filters remain. Negative phrases and arbitrary location searches are not supported.
+| Guide | Contents |
+| --- | --- |
+| [Setup](docs/setup.md) | Dependencies, running locally, troubleshooting |
+| [Architecture](docs/architecture.md) | Source layout, Mermaid diagram, event flow, session state |
+| [Search and user guide](docs/search-behavior.md) | Parsing, filters, ranking, results, comparison, reset behavior |
+| [Voice search](docs/voice-search.md) | Dictation lifecycle, transcript handling, browser requirements |
+| [Data model and limitations](docs/data-model-and-limitations.md) | CSV mapping, generated values, unsupported requests |
+| [Testing](docs/testing.md) | Commands, automated coverage, manual checks, verification record |
+| [Future improvements](docs/future-improvements.md) | Proposed work, separate from implemented features |
 
 ## Tests
 
@@ -42,4 +55,4 @@ uv run python -m unittest discover -s tests -v
 node tests/test_voice_search.mjs
 ```
 
-`search.py` is independent of Streamlit; `app.py` is the UI. Replace generated proximity with verified geocoded addresses and a real places/routing provider before using this for real home decisions.
+Documentation was checked against the source and tests on October 12, 2026. See [Testing](docs/testing.md) for the scope of verification.
