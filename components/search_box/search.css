@@ -1,0 +1,36 @@
+*{box-sizing:border-box}
+.search-panel{max-width:1040px;margin:0 auto 4px;font-family:inherit;color:#23372f}
+.search-form{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #dce3dc;border-radius:22px;padding:12px 12px 12px 24px;box-shadow:0 12px 40px #183e3210;transition:box-shadow .2s,border-color .2s}
+.search-form:focus-within{border-color:#6d9a82;box-shadow:0 0 0 3px #2f725319,0 12px 40px #183e3210}
+.search-icon{width:23px;height:23px;color:#759184;flex-shrink:0}
+input{min-width:0;flex:1;border:0;outline:0;background:transparent;color:#23372f;font:inherit;font-size:17px;padding:12px 0}
+input::placeholder{color:#87948c}
+button{font:inherit;cursor:pointer;transition:background .2s,transform .2s}
+button:focus-visible{outline:3px solid #81ae97;outline-offset:3px}
+.mic{display:grid;place-items:center;width:46px;height:46px;flex-shrink:0;border:0;border-radius:50%;background:#f0f5ef;color:#32634b}
+.mic svg{width:21px;height:21px}
+.mic:hover{background:#e0ecdf}
+.mic[aria-pressed=true]{background:#ffe8df;color:#a33d24;box-shadow:0 0 0 5px #ffe8df70}
+.mic:disabled{opacity:.45;cursor:default}
+.submit{border:0;border-radius:14px;padding:16px 22px;background:#214f3b;color:white;font-weight:600;white-space:nowrap}
+.submit span{padding-left:14px}
+.submit:hover{background:#32694f;transform:translateY(-1px)}
+.status{min-height:20px;margin:8px 0 12px;text-align:center;color:#768478;font-size:12px}
+.suggestion-label{text-align:center;font-size:10px;letter-spacing:2px;color:#7f8c82;margin-bottom:10px}
+.suggestions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:940px;margin:auto}
+.suggestions button{border:1px solid #dadfd9;border-radius:999px;padding:10px 18px;background:#ffffffd9;color:#354238;font-size:13px;line-height:1.4}
+.suggestions button:hover{background:#eaf1e7;border-color:#91ac98;transform:translateY(-1px)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:640px){.search-form{flex-wrap:wrap;padding:12px;gap:8px;border-radius:18px}
+.search-icon{display:none}
+input{font-size:15px}
+.submit{width:100%;padding:13px}
+.suggestions{gap:8px}
+.suggestions button{font-size:12px;padding:8px 12px}
+.status{margin-bottom:18px}
+}
+
+
+.mic .stop-icon{display:none}
+.mic[aria-pressed="true"] .mic-icon{display:none}
+.mic[aria-pressed="true"] .stop-icon{display:block}
